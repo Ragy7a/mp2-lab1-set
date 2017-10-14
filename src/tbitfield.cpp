@@ -10,11 +10,11 @@
 TBitField::TBitField(int len)
 {
 	BitLen=len;
-	MemLen=Bitlen/sizeof(TELEM)+1;
+	MemLen=BitLen/sizeof(TELEM)+1;
 	pMem=new TELEM(MemLen)+1;
 	for (int i=0; i<BitLen; i++)
 	{
-		PMem[i]=0;
+		pMem[i]=0;
 	}
 }
 
@@ -25,7 +25,7 @@ TBitField::TBitField(const TBitField &bf) // конструктор копиро
 	pMem=new TELEM(MemLen)+1;
 	for(int i=0; i<BitLen; i++)
 	{
-		pMem[i]=bf.pMem[i]
+		pMem[i]=bf.pMem[i];
 	}
 }
 
@@ -81,7 +81,7 @@ TBitField& TBitField::operator=(const TBitField &bf) // присваивание
 	BitLen=bf.BitLen;
 	for (int i=0; i<MemLen; i++)
 	{
-		pMem[i]=tb.pMem[i];
+		pMem[i]=bf.pMem[i];
 	}
 	return *this;
 }
@@ -91,14 +91,14 @@ int TBitField::operator==(const TBitField &bf) const // сравнение
 	if (bf.BitLen!=BitLen)
 		return 0;
 	else
-		for (int i=0; i<MemLen-1; i++)
+		for (int i=0; i<MemLen; i++)
 		{
 			if(bf.pMem[i]!=this->pMem[i])
 				return 0;
 		}
-		for (int i=BitLen-1; i>BitLen-Bitlen%32; i--)
+		for (int i=BitLen-1; i>BitLen-BitLen%32; i--)
 		{
-			if (bf.GetBit(i)!=this.GetBit(i))
+			if (bf.GetBit(i)!=this->GetBit(i))
 				return 0;
 		}
 		return 1;
@@ -109,14 +109,14 @@ int TBitField::operator!=(const TBitField &bf) const // сравнение
 	if (bf.BitLen!=BitLen)
 		return 1;
 	else
-		for (int i=0; i<MemLen-1; i++)
+		for (int i=0; i<MemLen; i++)
 		{
 			if(bf.pMem[i]!=this->pMem[i])
 				return 1;
 		}
-		for (int i=BitLen-1; i>BitLen-Bitlen%32; i--)
+		for (int i=BitLen-1; i>BitLen-BitLen%32; i--)
 		{
-			if (bf.GetBit(i)!=this.GetBit(i))
+			if (bf.GetBit(i)!=this->GetBit(i))
 				return 1;
 		}
 		return 0;
@@ -156,8 +156,27 @@ TBitField TBitField::operator~(void) // отрицание
 
 istream &operator>>(istream &istr, TBitField &bf) // ввод
 {
+int temp;
+for (int i=0; i<bf.GetLength(); i++)
+{
+	istr >> temp;
+	if (temp==1)
+	{
+		bf.SetBit(i);
+	}
+	else
+		bf.ClrBit(i);
+}
+return istr;
 }
 
 ostream &operator<<(ostream &ostr, const TBitField &bf) // вывод
-{
+{	for (int i=0; i<bf.GetLength(); i++)
+	{
+		if (bf.GetBit(i)>0)
+			ostr<< 1;
+		else
+			ostr<< 0;
+		return ostr;
+	}
 }
