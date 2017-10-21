@@ -111,7 +111,7 @@ int TBitField::operator==(const TBitField &bf) const // сравнение
 	if (bf.BitLen!=BitLen)
 		return 0;
 	else
-		for (int i=0; i<MemLen; i++)
+		for (int i=0; i<MemLen-1; i++)
 		{
 			if(bf.pMem[i]!=this->pMem[i])
 				return 0;
@@ -129,7 +129,7 @@ int TBitField::operator!=(const TBitField &bf) const // сравнение
 	if (bf.BitLen!=BitLen)
 		return 1;
 	else
-		for (int i=0; i<MemLen; i++)
+		for (int i=0; i<MemLen-1; i++)
 		{
 			if(bf.pMem[i]!=this->pMem[i])
 				return 1;
@@ -144,7 +144,12 @@ int TBitField::operator!=(const TBitField &bf) const // сравнение
 
 TBitField TBitField::operator|(const TBitField &bf) // операция "или"
 {
-	TBitField temp(BitLen);
+	int size;
+	if (BitLen<bf.BitLen)
+		size=bf.BitLen;
+	else
+		size=BitLen;
+	TBitField temp (size);
 	for (int i=0; i<MemLen; i++)
 	{
 		temp.pMem[i]=pMem[i]|bf.pMem[i];
@@ -154,7 +159,12 @@ TBitField TBitField::operator|(const TBitField &bf) // операция "или"
 
 TBitField TBitField::operator&(const TBitField &bf) // операция "и"
 {
-	TBitField temp(BitLen);
+	int size;
+	if (BitLen<bf.BitLen)
+		size=bf.BitLen;
+	else
+		size=BitLen;
+	TBitField temp (size);
 	for (int i=0; i<MemLen; i++)
 	{
 		temp.pMem[i]=pMem[i]&bf.pMem[i];
