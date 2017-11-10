@@ -81,9 +81,19 @@ int TSet::operator!=(const TSet &s) const // сравнение
 
 TSet TSet::operator+(const TSet &s) // объединение
 {
+	{
 	TSet temp(*this);
+	if(MaxPower > s.MaxPower)
+	{
+		temp.MaxPower = MaxPower;
+	}
+	else
+	{
+		temp.MaxPower = s.MaxPower;
+	}
 	temp.BitField = BitField | s.BitField;
 	return temp;
+}
 }
 
 TSet TSet::operator+(const int Elem) // объединение с элементом
@@ -117,7 +127,9 @@ TSet TSet::operator*(const TSet &s) // пересечение
 
 TSet TSet::operator~(void) // дополнение
 {
-return 0;
+	TSet temp(*this);
+	temp.BitField = ~BitField;
+	return temp;
 }
 
 // перегрузка ввода/вывода
