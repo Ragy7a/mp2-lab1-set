@@ -9,6 +9,8 @@
 
 TBitField::TBitField(int len)
 {
+	if(len<=0)
+	throw len;
 	BitLen = len;
 	MemLen = BitLen / sizeof(TELEM) + 1;
 	pMem = new TELEM[MemLen];
@@ -203,12 +205,10 @@ return istr;
 }
 
 ostream &operator<<(ostream &ostr, const TBitField &bf) // вывод
-{	for (int i=0; i<bf.GetLength(); i++)
+{	for (int i=0; i<bf.BitLen; i++)
 	{
-		if (bf.GetBit(i)>0)
-			ostr<< 1;
-		else
-			ostr<< 0;
+			ostr << bf.GetBit(i);
+		
 		return ostr;
 	}
 }

@@ -136,7 +136,17 @@ TSet TSet::operator~(void) // дополнение
 
 istream &operator>>(istream &istr, TSet &s) // ввод
 {
-	return istr;
+int temp;
+while(1)
+{
+	istr >> temp;
+	if (temp<0)
+	{
+		break;
+	}
+	s.BitField.SetBit(temp);
+}
+return istr;
 }
 
 ostream& operator<<(ostream &ostr, const TSet &s) // вывод
@@ -145,8 +155,8 @@ ostream& operator<<(ostream &ostr, const TSet &s) // вывод
 	for(int i=0; i<s.MaxPower; i++)
 	{
 		if (s.IsMember(i))
-			ostr<<i;
-		ostr<< ",";
+			ostr << i << " ";
+		
 	}
 		ostr << "}";
 		return ostr;
