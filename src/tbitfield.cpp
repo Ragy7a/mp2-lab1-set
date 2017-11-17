@@ -206,9 +206,11 @@ return istr;
 
 ostream &operator<<(ostream &ostr, const TBitField &bf) // вывод
 {
+	ostr << "{";
 	for (int i=0; i<bf.BitLen; i++)
 	{
-		ostr << bf.GetBit(i);
+		ostr << bf.GetBit(i) << " ";
 	}
+	ostr << "}";
 	return ostr;
 }
